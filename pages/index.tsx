@@ -3,6 +3,7 @@ import FilterHeader from "../components/molecules/FilterHeader";
 
 import * as contentful from "contentful";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 var client = contentful.createClient({
   space: process.env.CONTENTFUL_SPACE_ID as string,
@@ -26,6 +27,19 @@ export default function Home({ Card }: HomeProps) {
   const [series, setFilteredSeries] = useState(data);
   console.log(data);
 
+  const list = {
+    visible: {
+      transition: {
+        delayChildren: 0.5,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+  const item = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1 },
+  };
+
   const handleSelect = (value: string) => {
     const filteredData = data.filter((item) => {
       if (item.genre.includes(value)) {
@@ -41,19 +55,26 @@ export default function Home({ Card }: HomeProps) {
   return (
     <div>
       <FilterHeader selectedItem={handleSelect} />
-      <section className="flex flex-col items-center p-10 md:grid gap-5  grid-cols-2 md:max-w-[770px] xl:grid-cols-card xl:max-w-[1170px] my-0 mx-auto justify-center">
+      <motion.section
+        className="flex flex-col items-center p-10 md:grid gap-5  grid-cols-2 md:max-w-[770px] xl:grid-cols-card xl:max-w-[1170px] my-0 mx-auto justify-center"
+        variants={list}
+        initial="hidden"
+        animate="visible"
+      >
         {series.map((element, index) => {
           return (
-            <CardInfo
-              key={index}
-              title={element.title}
-              genre={element.genre}
-              image={element.image}
-              slug={element.slug}
-            />
+            <motion.div variants={item}>
+              <CardInfo
+                key={index}
+                title={element.title}
+                genre={element.genre}
+                image={element.image}
+                slug={element.slug}
+              />
+            </motion.div>
           );
         })}
-      </section>
+      </motion.section>
     </div>
   );
 }

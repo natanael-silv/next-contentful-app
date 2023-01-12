@@ -4,8 +4,12 @@ import { CardProps } from "../../../pages";
 
 
 export default function Card({ title, image, genre, slug }: CardProps) {
+ 
   return (
-    <div className="xl:w-[370px] w-[329px] h-[429px] relative">
+    <div
+      className="xl:w-[370px] w-[329px] h-[429px] relative"
+     
+    >
       <Link href={`/${slug}`}>
         <img
           src={image}

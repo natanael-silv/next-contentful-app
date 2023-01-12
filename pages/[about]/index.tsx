@@ -52,13 +52,13 @@ export const getStaticPaths = async () => {
   // create a list of paths with the card data
   const paths = card.items.map((card: any) => ({
     params: {
-      about: card.fields.showTitle,
+      about: card.fields.slug,
     },
   }));
 
   return {
     paths,
-    fallback: true,
+    fallback: false,
   };
 };
 export async function getStaticProps() {
